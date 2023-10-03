@@ -1,0 +1,99 @@
+---
+title: "lab-2-Group-2"
+output: html_document
+date: "2023-10-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+remotes::install_github("heike/classdata")
+library(classdata)
+?ames
+```
+
+```{r}
+names(ames)
+```
+
+```{r}
+sapply(ames, class)
+```
+
+```{r}
+library(codebook)
+library(future)
+```
+
+```{r}
+future(ames)
+```
+
+```{r}
+codebook(ames)
+```
+
+```{r}
+("Sale Price is the unique variable as data meant to measure the sales based on other variables. It makes the data valuable, with out Sale Price the rest of the data will be just a stastical representation")
+```
+
+```{r}
+range(ames$'Sale Price')
+```
+
+```{r}
+hist(ames$`Sale Price`, main = "Histogram of Sale Price", xlab = "Sale Price", col = "lightblue", border = "black")
+```
+
+```{r}
+("The Sale Price histogram is scewed left. but from noticing this bar, I do not know how would I interpret it and what 0.0e+00 meant. to the price sale")
+
+```
+
+```{r}
+str(ames)
+```
+
+```{r}
+summary(ames$ "Sale Price")
+```
+
+```{r}
+library(ggplot2)
+
+```
+
+```{r}
+ggplot(ames, aes(x = `Sale Price`, fill = Style)) +
+  geom_histogram(binwidth = 1000000, color = "black", alpha = 0.7) +
+  labs(title = "Histogram of Sale Price vs.Style", x = "Sale Price", y = "Style") +
+  theme_minimal()
+theme(legend.key.size = unit(0.5, "cm"))
+```
+
+```{r}
+ggplot(ames, aes(x = Style, y = `Sale Price`, fill = Style)) +
+  geom_boxplot(width = 0.9) +  # Adjust the width as needed (e.g., 0.7 for larger boxes)
+  labs(
+    title = "Boxplot of Sale Price by Style",
+    x = "Style",
+    y = "Sale Price"
+  ) +
+  theme_minimal()
+```
+
+
+```{r}
+style_ranges <- tapply(ames$`Sale Price`, ames$Style, function(x) c(min(x), max(x)))
+
+for (style in names(style_ranges)) {
+  cat("Style:", style, "\t", "Range:", style_ranges[[style]][1], "to", style_ranges[[style]][2], "\n")
+}
+```
+
+```{r}
+("The Style of the house has affect. the price. From the previous grapgs, it seems that some styles are popular than others where people buy them and has high rate of the sales price.")
+```
+
